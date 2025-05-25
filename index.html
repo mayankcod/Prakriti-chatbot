@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta 
+    name="viewport" 
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>Prakriti | SDG Career Bot</title>
+  <link rel="stylesheet" href="chatbot.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amarante&display=swap" rel="stylesheet">
+  />
+ <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.94/build/spline-viewer.js"></script>
+
+
+</head>
+<body>
+
+  <!-- Full-screen background Spline viewer -->
+  <spline-viewer id="spline-bg" 
+  class="background"
+ url="https://prod.spline.design/dExV-VN0IFmDAQnJ/scene.splinecode"></spline-viewer>
+
+  </spline-viewer>
+
+  <!-- Title top-left -->
+  <div class="title">
+    <h1>Prakriti🌿</h1>
+    <p>Your own Chat Bot</p>
+  </div>
+
+ <!-- Bottom-centered chat input -->
+ <div class="glass">
+  <div class="chat-log" id="chat-log"></div>
+  <div class="chat-input">
+    <input type="text" id="user-input" placeholder="Type your message here…" />
+    <button id="send-btn">Send</button>
+    <button id="mic-btn">🎤</button>
+  </div>
+</div>
+
+<script src="chatbot.js"></script>
+</body>
+</html>
