@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Get API key from environment variable
-api_key = os.getenv("OPENAI_API_KEY")
+api_key = "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"
 
 # Raise an error if the key is missing
 if not api_key:
