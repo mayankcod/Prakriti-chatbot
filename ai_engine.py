@@ -6,8 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 # Use the API key directly since it's already in the code
 # In production, this should be stored in an environment variable
-api_key = os.getenv("OPENAI_API_KEY")
-
+api_key = "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"
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",  # OpenRouter endpoint
     api_key=api_key,  # Your OpenRouter key
