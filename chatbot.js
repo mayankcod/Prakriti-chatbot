@@ -33,19 +33,15 @@ async function sendMessage(text) {
   if (!text) return;
 
   if (text.toLowerCase() === 'clear') {
-    log.innerHTML = ''; // Clear the chat log
-    input.value = ''; // Clear the input box
+    log.innerHTML = '';
+    input.value = '';
     addMessage('bot', 'Chat cleared. How can I help you now?');
     return;
   }
 
   addMessage('user', text);
-  input.value = ''; // Clear input after sending
+  input.value = '';
 
-
-
-
-  // Add "Thinking..." animation
   const thinkingMsg = document.createElement('div');
   thinkingMsg.className = 'bot-message';
   thinkingMsg.innerHTML = `<span class="typing"><span>.</span><span>.</span><span>.</span></span>`;
@@ -56,7 +52,7 @@ async function sendMessage(text) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const response = await fetch('https://prakriti-chatbot.onrender.com', {
+    const response = await fetch('https://prakriti-chatbot.onrender.com/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt: text }),
@@ -78,7 +74,6 @@ async function sendMessage(text) {
 
     const data = await response.json();
 
-    // Simple fallback: If the reply is too short or says "I don't know"
     if (
       data.reply.toLowerCase().includes("i don't know") ||
       data.reply.toLowerCase().includes("not sure") ||
@@ -88,10 +83,6 @@ async function sendMessage(text) {
     } else {
       thinkingMsg.textContent = ` ${data.reply}`;
     }
-    
-    //speakText(data.reply); // You can leave this commented out for now
-    
-    //speakText(data.reply); // Speak the bot's response
 
   } catch (error) {
     log.removeChild(thinkingMsg);
@@ -102,19 +93,18 @@ async function sendMessage(text) {
 // Event listeners
 btn.addEventListener('click', () => {
   sendMessage(input.value.trim());
-  input.value = ''; // Clear input after sending
+  input.value = '';
 });
 
 input.addEventListener('keypress', (e) => {
   if (e.key === 'Enter') {
-    e.preventDefault(); // optional, prevents form submission or unwanted behavior
+    e.preventDefault();
     sendMessage(input.value.trim());
-    input.value = ''; // ✅ Clear input after sending
+    input.value = '';
   }
 });
 
-
-// Speech Recognition - Start listening when mic button is clicked
+// Speech Recognition
 micBtn.addEventListener('click', () => {
   if (!isRecording) {
     recognition.start();
@@ -127,24 +117,22 @@ micBtn.addEventListener('click', () => {
   }
 });
 
-// Handle speech results and display them in the input field
 recognition.onresult = function (event) {
   const transcript = event.results[0][0].transcript;
   console.log("You said:", transcript);
-  input.value = transcript; // Set the transcript as input value
+  input.value = transcript;
 };
 
-// Handle any errors that occur during speech recognition
 recognition.onerror = function (event) {
   console.error('Speech recognition error:', event.error);
   addMessage('bot', 'Sorry, I couldn\'t hear you properly. Can you try again?');
 };
 
-// Text-to-speech (SpeechSynthesis) function
+// Optional: Text-to-speech
 function speakText(text) {
   const utterance = new SpeechSynthesisUtterance(text);
   window.speechSynthesis.speak(utterance);
-  addMessage('bot', text); // Display the spoken text in chat
+  addMessage('bot', text);
 }
 
 // Initial welcome message
