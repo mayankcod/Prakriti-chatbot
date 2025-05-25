@@ -52,7 +52,8 @@ async function sendMessage(text) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const response = await fetch('https://prakriti-chatbot.onrender.com', {
+    const response = await fetch('https://prakriti-chatbot.onrender.com/generate', {
+
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt: text }),
