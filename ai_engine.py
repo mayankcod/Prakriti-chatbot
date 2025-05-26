@@ -19,7 +19,7 @@ client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
     api_key=api_key,
     default_headers={
-        "HTTP-Referer": "https://prakriti-chatbot.onrender.com",  # Replace with your actual domain
+        "Referer": "https://prakriti-chatbot.onrender.com",  # Replace with your actual domain
         "X-Title": "Prakriti Bot"
     }
 )
