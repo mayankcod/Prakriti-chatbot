@@ -19,10 +19,11 @@ client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
     api_key=api_key,
     default_headers={
-        "Referer": "https://prakriti-chatbot.onrender.com",  # Replace with your actual domain
+        "Referer": "https://prakriti-chatbot-58si.vercel.app",
         "X-Title": "Prakriti Bot"
     }
 )
+
 
 def chat_with_ai(prompt):
     system_prompt = """
