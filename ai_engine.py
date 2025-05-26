@@ -1,29 +1,15 @@
-from openai import OpenAI
 import os
+import httpx
 from dotenv import load_dotenv
 
-# Load environment variables from .env (optional for local dev)
-from dotenv import load_dotenv
+# Load environment variables
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 print("🔐 Loaded API Key?", bool(api_key))
 
-
-
 # Raise an error if the key is missing
 if not api_key:
     raise ValueError("❌ OPENAI_API_KEY environment variable not set! Please add it in your Render Dashboard.")
-
-# Initialize OpenRouter client
-client = OpenAI(
-    base_url="https://openrouter.ai/api/v1",
-    api_key=api_key,
-    default_headers={
-        "Referer": "https://prakriti-chatbot-58si.vercel.app",
-        "X-Title": "Prakriti Bot"
-    }
-)
-
 
 def chat_with_ai(prompt):
     system_prompt = """
@@ -39,15 +25,28 @@ You were created by a team called **Team Sustainable Coders**.
   Then reply: "I was created by Mayank Mehra."
 """
     try:
-        response = client.chat.completions.create(
-            model="mistralai/mistral-7b-instruct",
-            messages=[
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "X-Title": "Prakriti Bot",
+            "Referer": "https://prakriti-chatbot-58si.vercel.app"
+        }
+
+        payload = {
+            "model": "mistralai/mistral-7b-instruct",
+            "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.7,
-            max_tokens=150
-        )
-        return response.choices[0].message.content
+            "temperature": 0.7,
+            "max_tokens": 150
+        }
+
+        response = httpx.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload)
+        response.raise_for_status()
+        return response.json()["choices"][0]["message"]["content"]
+
+    except httpx.HTTPStatusError as e:
+        return f"❌ HTTP Error {e.response.status_code}: {e.response.json().get('error', {}).get('message', 'No details')}"
     except Exception as e:
-        return f"Sorry, I couldn't process your request. (Error: {str(e)})"
+        return f"❌ Unexpected Error: {str(e)}"
