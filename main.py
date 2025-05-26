@@ -2,12 +2,12 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from ai_engine import chat_with_ai
 
-app = FastAPI()
+app = FastAPI()  # 👈 THIS is what uvicorn needs
 
-# CORS setup
+# Allow CORS (for frontend JS to access API)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # or ["http://localhost:5500"]
+    allow_origins=["*"],  # For development, allow all origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
