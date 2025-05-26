@@ -2,14 +2,12 @@ import os
 import httpx
 from dotenv import load_dotenv
 
-# Load environment variables
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 print("🔐 Loaded API Key?", bool(api_key))
 
-# Raise an error if the key is missing
 if not api_key:
-    raise ValueError("❌ OPENAI_API_KEY environment variable not set! Please add it in your Render Dashboard.")
+    raise ValueError("❌ OPENAI_API_KEY not set!")
 
 def chat_with_ai(prompt):
     system_prompt = """
