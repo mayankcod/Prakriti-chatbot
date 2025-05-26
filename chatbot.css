@@ -9,21 +9,22 @@ html, body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background: rgb(42, 40, 40);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: rgb(42, 40, 40);/* Fallback background */
 }
+
+
 
 /* Spline background */
 .background {
-  position: fixed;
-  top: 0;
+  position: fixed; /* changed from absolute */
+  top: -10%;
   left: 0;
   width: 100vw;
   height: 100vh;
   z-index: 0;
-  background: rgba(42, 40, 40, 0.2);
-  transition: transform 0.4s ease;
+  background: rgba(42, 40, 40, 0.211);
   transform: scale(1.3);
+  transition: transform 0.6s ease;
 }
 
 spline-viewer {
@@ -32,132 +33,192 @@ spline-viewer {
   display: block;
 }
 
-/* Title */
+/* Top‑left Title */
 .title {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: column; /* Stack vertically */
+  align-items: flex-start; /* Align left */
   position: fixed;
-  top: 20px;
-  left: 20px;
+  top: -p.9x;
+  left: 30px;
   z-index: 1000;
 }
 
 .title h1 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   background: linear-gradient(45deg, #00274d, #271adc, #4b21c7);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 1px 1px 8px rgba(13, 52, 204, 0.7);
+  text-shadow: 1px 1px 10px rgba(13, 52, 204, 0.7);
   margin: 0;
-  transition: all 0.4s ease;
 }
 
 .title p {
-  font-size: 1rem;
+  font-size: 1.2rem;
+  color: #adc4ff;
   margin-top: 4px;
   background: linear-gradient(45deg, #0f27df, #3844ef, #613cf6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  transition: all 0.4s ease;
 }
 
-body.chat-fullscreen .title h1 {
-  background: linear-gradient(45deg, #00ffc8, #00d2ff, #007cf0);
-  text-shadow: 1px 1px 10px rgba(0, 212, 255, 0.6);
+.title h1::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: linear-gradient(45deg, #417bef, #99bbdf, #677deb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: blur(4px);
+  z-index: -1;
 }
 
-body.chat-fullscreen .title p {
-  background: linear-gradient(45deg, #00ffc8, #00d2ff, #007cf0);
+/* Hover lift */
+.title h1:hover {
+  transform: translateY(-6px);
 }
 
-/* Fullscreen Button */
-.fullscreen-btn {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  padding: 8px;
-  background: rgba(0, 0, 0, 0.4);
-  color: white;
-  font-size: 1.2rem;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 1001;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  transition: transform 0.3s ease, background 0.3s ease;
-}
-
-.fullscreen-btn:hover {
-  transform: scale(1.05);
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* Chat container */
+/* Main chatbot box */
 .glass {
   position: fixed;
   bottom: 5%;
   left: 50%;
   transform: translateX(-50%);
-  width: 90vw;
-  max-width: 800px;
-  max-height: 80vh;
+  width: 800px;
+  max-height: 600px;
   padding: 0.5rem;
   background: rgba(37, 26, 26, 0.275);
   backdrop-filter: blur(12px);
   border-radius: 20px;
+ 
   display: flex;
   flex-direction: column;
-  transition: all 0.4s ease;
+  transition: all 0.5s ease;
   overflow: hidden;
   z-index: 500;
 }
 
+/* Fullscreen mode */
 .glass.expanded {
   top: 0;
   left: 0;
-  right: 0;
   bottom: 0;
+  right: 0;
+  transform: none;
   width: 100vw;
   height: 100vh;
-  padding: 1rem;
-  border-radius: 0;
-  background: rgba(0, 0, 0, 0.6);
+  max-height: none;
+   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(20px);
+  border-radius: 0;
+  padding: 2.9rem;
+   /* To leave space for .title */
+}
+.fullscreen-btn {
+  position: fixed;
+  top: 0px;
+  right: 30px;
+  padding: 10px 12px;
+  background: linear-gradient(135deg, #4059d73b, #087b7500);
+  color: rgb(250, 246, 246);
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 30%;
+  cursor: pointer;
+  z-index: 1001;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
 }
 
-/* Chat log */
-.chat-log {
-  flex: 1;
+.fullscreen-btn:hover {
+  background: linear-gradient(135deg, #003cff, #005eff);
+  transform: scale(0.8);
+}
+
+/* Chat display area */
+#chatbox {
+  flex-grow: 1;
   overflow-y: auto;
   padding: 1rem;
+  margin-bottom: 1rem;
   color: white;
 }
 
-/* Input */
-.chat-input {
+/* Input container */
+.input-container {
   display: flex;
-  gap: 0.5rem;
   align-items: center;
+  background: #111;
+  border-radius: 10px;
   padding: 0.5rem;
 }
 
-.chat-input input {
+/* Input field */
+input[type="text"] {
   flex: 1;
-  padding: 10px;
-  font-size: 1rem;
+  padding: 0.5rem;
   border: none;
-  border-radius: 20px;
-  background: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+  background-color: #222;
   color: white;
 }
 
+/* Send button */
+button {
+  background-color: #0047ff;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  margin-left: 0.5rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Chat log styling */
+.chat-log {
+  background: rgba(47, 40, 40, 0.3);
+  border-radius: 10px;
+  padding: 2%;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+/* Chat log in expanded state fills height */
+.glass.expanded .chat-log {
+  max-height: unset;
+  height: calc(100vh - 200px); /* Adjust based on input height + margins */
+  overflow-y: auto;
+}
+
+/* Ensure suggestions list is visible in expanded mode */
+.glass.expanded .chat-input {
+  position: relative;
+  z-index: 1000;
+}
+
+/* Input row */
+.chat-input {
+  display: flex;
+  gap: 1rem;
+}
+.chat-input input {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 101px;
+  outline: none;
+  font-size: 1rem;
+  background: rgba(0, 0, 0, 0.8);
+  color: #ffffff;
+}
 .chat-input button {
-  padding: 10px 16px;
+  padding: 12px 20px;
   border: none;
   border-radius: 10px;
   background: #001db0;
@@ -166,49 +227,96 @@ body.chat-fullscreen .title p {
   cursor: pointer;
   transition: background 0.3s ease;
 }
-
 .chat-input button:hover {
-  background: #0030ff;
+  background: #020528;
 }
 
-/* Messages */
-.user-message, .bot-message {
-  padding: 10px 15px;
-  margin: 5px 0;
-  max-width: 80%;
-  font-size: 1rem;
-  line-height: 1.4;
-  word-wrap: break-word;
-  border-radius: 20px;
-}
-
+/* Chat bubble styles */
 .user-message {
   background: linear-gradient(135deg, #002fff, #00bcd4);
   color: white;
-  margin-left: auto;
+  padding: 10px 15px;
   border-radius: 20px 20px 0 20px;
+  max-width: 50%;
+  margin: 5px 0 5px auto;
+  text-align: right;
+  align-self: flex-end;
+  box-shadow: 0 4px 12px rgba(0, 0, 255, 0.2);
 }
-
 .bot-message {
   background: linear-gradient(135deg, #292025, #342e32);
   color: white;
-  margin-right: auto;
+  padding: 10px 15px;
   border-radius: 20px 20px 20px 0;
+  max-width: 50%;
+  margin: 10px auto 10px 0;
+  text-align: left;
+  align-self: flex-start;
+  box-shadow: 0 4px 12px rgba(68, 98, 220, 0.2);
 }
 
-/* Typing indicator */
+/* Typing dots */
+@keyframes blink {
+  0% { opacity: 0.2; }
+  20% { opacity: 1; }
+  100% { opacity: 0.2; }
+}
+.typing {
+  display: inline-block;
+}
 .typing span {
   animation: blink 1.4s infinite both;
   display: inline-block;
   font-size: 1.2rem;
   margin-left: 2px;
 }
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
 
-@keyframes blink {
-  0% { opacity: 0.2; }
-  20% { opacity: 1; }
-  100% { opacity: 0.2; }
+/* Mic button active effect */
+#mic-btn.recording {
+  background-color: #ff4d4d;
+  animation: pulse 1s infinite;
+  color: white;
 }
+
+/* Pulse animation */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.6); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 77, 77, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
+}
+
+/* Mic hint text */
+.mic-hint {
+  margin-left: 8px;
+  color: #ff4d4d;
+  font-size: 14px;
+  display: none;
+}
+
+/* Fade out animation */
+.fade-out {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  pointer-events: none;
+}
+
+body.chat-fullscreen .title h1 {
+  background: linear-gradient(45deg, #00ffc8, #00d2ff, #007cf0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 1px 1px 12px rgba(0, 212, 255, 0.7);
+}
+
+body.chat-fullscreen .title p {
+  background: linear-gradient(45deg,#00ffc8, #00d2ff, #007cf0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
 
 /* Mobile Responsiveness */
 @media screen and (max-width: 600px) {
