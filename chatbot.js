@@ -14,11 +14,12 @@ let isRecording = false;
 
 // Expand UI once
 function expandChatUI() {
-  if (!hasExpanded) {
-    glass.classList.add('expanded');
-    document.body.classList.add('chat-fullscreen');
-    hasExpanded = true;
-  }
+if (!hasExpanded) {
+  document.querySelector('.glass').classList.add('expanded');
+  document.body.classList.add('chat-fullscreen');
+  hasExpanded = true;
+}
+
 }
 
 // Function to add messages to chat log
@@ -149,6 +150,60 @@ function speakText(text) {
   window.speechSynthesis.speak(utterance);
   addMessage('bot', text);
 }
+function triggerWelcomeTransition() {
+  if (hasInteracted) return;
+  hasInteracted = true;
+
+  const title = document.getElementById('title');
+  const splineBg = document.getElementById('spline-bg');
+  const glass = document.getElementById('glass');
+
+  // Fade out the title and spline background
+  title.classList.add('fade-out');
+  subtitle.classList.add('fade-out');
+  splineBg.classList.add('fade-out');
+
+  // Expand the chat container
+  setTimeout(() => {
+    glass.classList.add('expanded');
+  }, 500); // Delay expansion slightly for smoother transition
+}
+
+// Hook into send
+btn.addEventListener('click', () => {
+  triggerWelcomeTransition();
+});
+
+// Hook into Enter key
+input.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    triggerWelcomeTransition();
+  }
+  
+});
+
+ //Trigger animation when ANY button is clicked
+document.querySelectorAll('button').forEach(button => {
+  button.addEventListener('click', triggerWelcomeTransition);
+});
 
 // Initial welcome message
 addMessage('bot', 'Hello! I\'m Prakriti. How can I help you today?');
+
+function toggleFullscreen() {
+  const glass = document.querySelector('.glass');
+  const btn = document.getElementById('fullscreen-toggle');
+  const body = document.body;
+
+  const isExpanded = glass.classList.contains('expanded');
+
+  if (isExpanded) {
+    glass.classList.remove('expanded');
+    body.classList.remove('chat-fullscreen');
+    btn.textContent = '⛶'; // expand icon
+  } else {
+    glass.classList.add('expanded');
+    body.classList.add('chat-fullscreen');
+    btn.textContent = '✖'; // close icon
+  }
+}
