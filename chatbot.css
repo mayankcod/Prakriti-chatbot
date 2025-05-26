@@ -331,8 +331,8 @@ body.chat-fullscreen .title p {
     left: 2.5%;
     right: 2.5%;
     transform: none;
-    background: rgba(0, 0, 0, 0.8) !important;
-    backdrop-filter: none !important;
+   background: rgba(37, 26, 26, 0.275);
+  backdrop-filter: blur(12px);
     border-radius: 12px;
     padding: 1rem;
     flex-direction: column;
