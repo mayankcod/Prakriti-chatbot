@@ -211,12 +211,22 @@ body.chat-fullscreen .title p {
 
 /* Mobile Responsiveness */
 @media screen and (max-width: 600px) {
-  .title h1 { font-size: 1.5rem; }
-  .title p { font-size: 0.9rem; }
-  .glass { width: 95vw; bottom: 2%; padding: 0.5rem; }
-  .chat-input input { font-size: 0.9rem; }
-  .chat-input button { font-size: 0.9rem; padding: 8px 12px; }
-  .fullscreen-btn { top: 10px; right: 10px; width: 36px; height: 36px; font-size: 1rem; }
-  .user-message, .bot-message { font-size: 0.9rem; max-width: 95%; }
+  spline-viewer {
+    display: none !important;
+  }
+
+  .glass {
+    backdrop-filter: none !important;
+    background: rgba(0, 0, 0, 0.7) !important;
+  }
+
+  .chat-log {
+    max-height: 60vh;
+  }
+
+  .typing span {
+    font-size: 1rem;
+  }
 }
+
 
