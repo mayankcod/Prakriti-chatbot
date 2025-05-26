@@ -47,6 +47,14 @@ spline-viewer {
   top: 20px;
   left: 30px;
   z-index: 1000;
+  opacity: 0.6;
+  transform: translateY(-10px);
+  transition: all 0.7s ease;
+}
+
+body.chat-fullscreen .title {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .title h1 {
@@ -82,12 +90,23 @@ spline-viewer {
   border-radius: 20px;
   display: flex;
   flex-direction: column;
-  transition: all 0.5s ease;
+  transition: all 0.5s ease-in-out;
   overflow: hidden;
   z-index: 500;
 }
 
-/* Fullscreen mode */
+@keyframes expandGlass {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Fullscreen mode with animation */
 .glass.expanded {
   top: 0;
   left: 0;
@@ -99,6 +118,7 @@ spline-viewer {
   max-height: none;
   border-radius: 0;
   padding: 0rem;
+  animation: expandGlass 0.7s ease forwards;
 }
 
 /* Chat display area */
