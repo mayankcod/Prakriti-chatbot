@@ -319,23 +319,58 @@ body.chat-fullscreen .title p {
 
 
 /* Mobile Responsiveness */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
   spline-viewer {
     display: none !important;
   }
 
   .glass {
+    width: 95vw;
+    height: 92vh;
+    top: 4%;
+    left: 2.5%;
+    right: 2.5%;
+    transform: none;
+    background: rgba(0, 0, 0, 0.8) !important;
     backdrop-filter: none !important;
-    background: rgba(0, 0, 0, 0.7) !important;
+    border-radius: 12px;
+    padding: 1rem;
+    flex-direction: column;
+  }
+
+  .chat-input input {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  .chat-input button {
+    padding: 10px 14px;
+    font-size: 0.9rem;
   }
 
   .chat-log {
     max-height: 60vh;
+    overflow-y: auto;
   }
 
-  .typing span {
-    font-size: 1rem;
+  .fullscreen-btn {
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+  }
+
+  .title h1 {
+    font-size: 1.4rem;
+  }
+
+  .title p {
+    font-size: 0.9rem;
+  }
+
+  .user-message, .bot-message {
+    font-size: 0.9rem;
+    max-width: 95%;
   }
 }
-
-
