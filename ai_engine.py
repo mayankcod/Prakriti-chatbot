@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 from dotenv import load_dotenv
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
+print("🔐 Loaded API Key?", bool(api_key))
+
 
 
 # Raise an error if the key is missing
