@@ -108,6 +108,7 @@ body.chat-fullscreen .title {
 
 /* Fullscreen mode with animation */
 .glass.expanded {
+  position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
@@ -117,8 +118,13 @@ body.chat-fullscreen .title {
   height: 100vh;
   max-height: none;
   border-radius: 0;
-  padding: 0rem;
+  padding: 1rem;
   animation: expandGlass 0.7s ease forwards;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  z-index: 900;
 }
 
 /* Chat display area */
@@ -127,6 +133,7 @@ body.chat-fullscreen .title {
   overflow-y: auto;
   padding: 1rem;
   margin-bottom: 1rem;
+  max-height: unset;
   color: white;
 }
 
@@ -160,10 +167,15 @@ button {
 
 /* Chat bubble styles */
 .user-message, .bot-message {
-  max-width: 80%;
   word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
   font-size: 1rem;
+  line-height: 1.4;
+  padding: 10px 15px;
+  margin: 10px;
 }
+
 
 .user-message {
   background: linear-gradient(135deg, #002fff, #00bcd4);
