@@ -2,6 +2,9 @@ const log = document.getElementById('chat-log');
 const input = document.getElementById('user-input');
 const btn = document.getElementById('send-btn');
 const micBtn = document.getElementById('mic-btn');
+const glass = document.querySelector('.glass');
+let hasExpanded = false;
+
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
 recognition.lang = 'en-US';
 recognition.interimResults = true;
@@ -9,11 +12,20 @@ recognition.maxAlternatives = 1;
 
 let isRecording = false;
 
+// Expand UI once
+function expandChatUI() {
+  if (!hasExpanded) {
+    glass.classList.add('expanded');
+    document.body.classList.add('chat-fullscreen');
+    hasExpanded = true;
+  }
+}
+
 // Function to add messages to chat log
 function addMessage(sender, text) {
   const messageDiv = document.createElement('div');
   messageDiv.className = sender === 'user' ? 'user-message' : 'bot-message';
-  messageDiv.textContent = text; 
+  messageDiv.textContent = text;
   log.appendChild(messageDiv);
   log.scrollTo({ top: log.scrollHeight, behavior: 'smooth' });
 }
@@ -31,6 +43,8 @@ function handleError(error) {
 // Function to send message to backend
 async function sendMessage(text) {
   if (!text) return;
+
+  expandChatUI(); // ✅ Expand the UI once on first input
 
   if (text.toLowerCase() === 'clear') {
     log.innerHTML = '';
@@ -53,7 +67,6 @@ async function sendMessage(text) {
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     const response = await fetch('https://prakriti-chatbot.onrender.com/generate', {
-
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt: text }),
@@ -122,6 +135,7 @@ recognition.onresult = function (event) {
   const transcript = event.results[0][0].transcript;
   console.log("You said:", transcript);
   input.value = transcript;
+  sendMessage(transcript); // ✅ trigger message and expansion
 };
 
 recognition.onerror = function (event) {
