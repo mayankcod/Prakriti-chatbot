@@ -14,7 +14,7 @@ html, body {
 
 
 
-/* Spline background */
+/* background */
 .background {
   position: fixed; /* changed from absolute */
   top: -10%;
@@ -74,7 +74,7 @@ spline-viewer {
   z-index: -1;
 }
 
-/* Hover lift */
+
 .title h1:hover {
   transform: translateY(-6px);
 }
@@ -113,7 +113,7 @@ spline-viewer {
   backdrop-filter: blur(20px);
   border-radius: 0;
   padding: 2.9rem;
-   /* To leave space for .title */
+   
 }
 .fullscreen-btn {
   position: fixed;
@@ -141,7 +141,7 @@ spline-viewer {
   transform: scale(0.8);
 }
 
-/* Chat display area */
+
 #chatbox {
   flex-grow: 1;
   overflow-y: auto;
@@ -150,7 +150,7 @@ spline-viewer {
   color: white;
 }
 
-/* Input container */
+
 .input-container {
   display: flex;
   align-items: center;
@@ -189,14 +189,14 @@ button {
   flex-grow: 1;
 }
 
-/* Chat log in expanded state fills height */
+/* Chat log in expanded state */
 .glass.expanded .chat-log {
   max-height: unset;
-  height: calc(100vh - 200px); /* Adjust based on input height + margins */
+  height: calc(100vh - 200px); 
   overflow-y: auto;
 }
 
-/* Ensure suggestions list is visible in expanded mode */
+
 .glass.expanded .chat-input {
   position: relative;
   z-index: 1000;
