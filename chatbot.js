@@ -187,6 +187,26 @@ document.querySelectorAll('button').forEach(button => {
   button.addEventListener('click', triggerWelcomeTransition);
 });
 
+window.addEventListener("load", async () => {
+  const statusEl = document.getElementById("server-status");
+  statusEl.style.display = "block";
+
+  const backendUrl = "https://prakriti-chatbot.onrender.com"; 
+
+  try {
+    // Ping backend to wake it up
+    await fetch(backendUrl, { method: "GET" });
+    // Backend is awake now
+  } catch (err) {
+    console.log("Initial ping failed. Might be cold starting...");
+  }
+
+  // Wait 2–3 seconds to make animation feel natural
+  setTimeout(() => {
+    statusEl.style.display = "none";
+  }, 2500);
+});
+
 // Initial welcome message
 addMessage('bot', 'Hello! I\'m Prakriti. How can I help you today?');
 
